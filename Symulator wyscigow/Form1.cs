@@ -16,6 +16,7 @@ namespace Symulator_wyscigow
         {
             InitializeComponent();
 
+
             Greyhound One = new Greyhound()
             {
                 MyPictureBox = pictureBox2
@@ -39,21 +40,26 @@ namespace Symulator_wyscigow
             Guy Janek = new Guy()
             {
                 Name = "Janek",
-                Cash = 50
+                Cash = 50,
+                MyRadioButton = radioButton1
             };
 
             Guy Bartek = new Guy()
             {
                 Name = "Bartek",
-                Cash = 75
+                Cash = 75,
+                MyRadioButton = radioButton2
             };
 
             Guy Arek = new Guy()
             {
                 Name = "Arek",
-                Cash = 45
+                Cash = 45,
+                MyRadioButton = radioButton3
             };
 
+            //Jak dodać Bet.MinimumAmount??
+            minimumBetLabel.Text = "Minimalna kwota zakładu: 5zł";
         }
     }
 
@@ -84,6 +90,7 @@ namespace Symulator_wyscigow
         {
             Location = 22;
             StartingPosition = 22;
+            MyPictureBox.Location = new Point(22);
         }
 
 
@@ -105,7 +112,7 @@ namespace Symulator_wyscigow
 
         public void Clearbet()
         {
-            if (MyBet.Amount >= 1)
+            if (MyBet.Amount >= MyBet.MinimumAmount)
             {
                 MyBet.Bettor.Cash += MyBet.Amount;
             }
@@ -125,6 +132,13 @@ namespace Symulator_wyscigow
 
         public void Collect(int Winner)
         {
+            if (MyBet.Dog == Winner)
+            {
+                MyBet.Bettor.Cash += MyBet.Amount * 2;
+            }
+            UpdateLabel();
+
+
             //Poproś o wypłatę zakładu i zaktualizuj etykiety
         }
 
@@ -132,6 +146,7 @@ namespace Symulator_wyscigow
 
     public class Bet
     {
+        public int MinimumAmount = 5; //Minimalna ilość pieniędzy do postawienia
         public int Amount; //Ilość postawionych pieniędzy
         public int Dog; //Numer psa na którego postawiono
         public Guy Bettor; //Facet który zawarł zakład
@@ -151,14 +166,7 @@ namespace Symulator_wyscigow
         public int PayOut(int Winner)
         {
             //???????????
-            if (Winner == Dog)
-            {
-                Bettor.Cash += Amount * 2;
-            }
-            else
-            {
-
-            }
+            //Take winner from run()
             return 0;
         }
 
